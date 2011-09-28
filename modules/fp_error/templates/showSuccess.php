@@ -2,6 +2,9 @@
 dd, dt{
 	height: 12px;
 }
+dl{
+	padding-bottom: 10px;
+}
 </style>
 
 <h1>#<?php echo $error->id ?> <?php echo $error->exception_class ?></h1>
@@ -15,9 +18,9 @@ dd, dt{
 	<dd>
 		<form method="post" action="<?php echo url_for('fp_error_collection', array('action' => 'filter')) ?>">
 			<?php echo $count_similar ?>
-			<input type="hidden" name ="fp_error_filters[exception_class][text]" value="<?php echo $error->exception_class ?>" />
-			<input type="hidden" name ="fp_error_filters[file][text]" value="<?php echo $error->file ?>" />
-			<input type="hidden" name ="fp_error_filters[line][text]" value="<?php echo $error->line ?>" />
+			<input type="hidden" name="fp_error_filters[exception_class][text]" value="<?php echo $error->exception_class ?>" />
+			<input type="hidden" name="fp_error_filters[file][text]" value="<?php echo $error->file ?>" />
+			<input type="hidden" name="fp_error_filters[line][text]" value="<?php echo $error->line ?>" />
 			<?php $csrf_form = new fpErrorFormFilter()?>
 			<?php if($csrf_form->isCSRFProtected()){ ?>
 				<input type="hidden" name ="fp_error_filters[<?php echo $csrf_form->getCSRFFieldName() ?>]" value="<?php echo $csrf_form->getCSRFToken() ?>" />
@@ -27,12 +30,36 @@ dd, dt{
 	</dd>
 
 	<dt>Date</dt>
-	<dd><?php echo format_datetime($error->created_at, 'EEEE yyyy-MM-dd HH:mm:ss z') ?> or <?php echo time_ago_in_words(strtotime($error->created_at)) ?> ago</dd>
+	<dd>
+		<form method="post" action="<?php echo url_for('fp_error_collection', array('action' => 'filter')) ?>">
+			<?php echo format_datetime($error->created_at, 'EEEE yyyy-MM-dd HH:mm:ss z') ?> or <?php echo time_ago_in_words($to_ts = strtotime($error->created_at)) ?> ago
+			<?php $from_ts = $to_ts ?>
+			<input type="hidden" name="fp_error_filters[created_at][from][month]" value="<?php echo date('n', $from_ts) ?>" />
+			<input type="hidden" name="fp_error_filters[created_at][from][day]" value="<?php echo date('j', $from_ts) ?>" />
+			<input type="hidden" name="fp_error_filters[created_at][from][year]" value="<?php echo date('Y', $from_ts) ?>" />
+			<input type="hidden" name="fp_error_filters[created_at][to][month]" value="<?php echo date('n', $to_ts) ?>" />
+			<input type="hidden" name="fp_error_filters[created_at][to][day]" value="<?php echo date('j', $to_ts) ?>" />
+			<input type="hidden" name="fp_error_filters[created_at][to][year]" value="<?php echo date('Y', $to_ts) ?>" />
+			<?php $csrf_form = new fpErrorFormFilter()?>
+			<?php if($csrf_form->isCSRFProtected()){ ?>
+				<input type="hidden" name ="fp_error_filters[<?php echo $csrf_form->getCSRFFieldName() ?>]" value="<?php echo $csrf_form->getCSRFToken() ?>" />
+			<?php } ?>
+			<input type="submit" value="this day" />
+		</form>
+	</dd>
 
 	<dt>User</dt>
 	<dd>
 		<?php if($error->user_authenticated){ ?>
-			<?php echo $error->user_name ?> (<?php echo $error->user_id ?>)
+			<form method="post" action="<?php echo url_for('fp_error_collection', array('action' => 'filter')) ?>">
+				<?php echo $error->user_name ?> (id: <?php echo $error->user_id ?>)
+				<input type="hidden" name="fp_error_filters[user_name][text]" value="<?php echo $error->user_name ?>" />
+				<?php $csrf_form = new fpErrorFormFilter()?>
+				<?php if($csrf_form->isCSRFProtected()){ ?>
+					<input type="hidden" name ="fp_error_filters[<?php echo $csrf_form->getCSRFFieldName() ?>]" value="<?php echo $csrf_form->getCSRFToken() ?>" />
+				<?php } ?>
+				<input type="submit" value="other by user" />
+			</form>
 		<?php }else{ ?>
 			Not authenticated
 		<?php } ?>

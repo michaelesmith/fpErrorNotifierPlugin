@@ -24,8 +24,9 @@ generator:
           archive: ~
         batch_actions:
           archive: ~
+        actions: {}
       filter:
-        display: [created_at, uri, environment, module, action, exception_class, file, user_authenticated, user_name, is_archived]
+        display: [created_at, uri, environment, module, action, exception_class, exception_message, file, user_authenticated, user_name, is_archived]
       form:    ~
       edit:    ~
       new:     ~

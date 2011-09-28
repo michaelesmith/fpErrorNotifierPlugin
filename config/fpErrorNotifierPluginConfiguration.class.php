@@ -1,6 +1,7 @@
 <?php
 
 require_once dirname(__FILE__) . '/include.php';
+require_once dirname(__FILE__) . '/../lib/exception/sfError404Exception.class.php';
 
 /** 
  *
