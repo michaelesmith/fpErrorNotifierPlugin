@@ -12,12 +12,19 @@ dl{
 
 <dl>
 	<dt>Archived</dt>
-	<dd><?php echo $error->is_archived ? 'Archived' : 'Not archived' ?></dd>
+	<dd>
+		<?php if($error->is_archived){ ?>
+			Archived
+		<?php }else{ ?>
+			Not archived
+			<a href="<?php echo url_for('fp_error_object', array('sf_subject' => $error, 'action' => 'ListArchive')) ?>">Archive Now</a>
+		<?php } ?>
+	</dd>
 
 	<dt>Similar</dt>
 	<dd>
 		<form method="post" action="<?php echo url_for('fp_error_collection', array('action' => 'filter')) ?>">
-			<?php echo $count_similar ?>
+			<?php echo $count_similar ?> + <?php echo $count_similar_archived ?> archived
 			<input type="hidden" name="fp_error_filters[exception_class][text]" value="<?php echo $error->exception_class ?>" />
 			<input type="hidden" name="fp_error_filters[file][text]" value="<?php echo $error->file ?>" />
 			<input type="hidden" name="fp_error_filters[line][text]" value="<?php echo $error->line ?>" />
@@ -26,6 +33,25 @@ dl{
 				<input type="hidden" name ="fp_error_filters[<?php echo $csrf_form->getCSRFFieldName() ?>]" value="<?php echo $csrf_form->getCSRFToken() ?>" />
 			<?php } ?>
 			<input type="submit" value="view" />
+		</form>
+	</dd>
+
+	<dt>Identical</dt>
+	<dd>
+		<form method="post" action="<?php echo url_for('fp_error_collection', array('action' => 'filter')) ?>">
+			<?php echo $count_identical ?> + <?php echo $count_identical_archived ?> archived
+			<input type="hidden" name="fp_error_filters[exception_class][text]" value="<?php echo $error->exception_class ?>" />
+			<input type="hidden" name="fp_error_filters[file][text]" value="<?php echo $error->file ?>" />
+			<input type="hidden" name="fp_error_filters[line][text]" value="<?php echo $error->line ?>" />
+			<input type="hidden" name="fp_error_filters[exception_message][text]" value="<?php echo $error->exception_message ?>" />
+			<?php $csrf_form = new fpErrorFormFilter()?>
+			<?php if($csrf_form->isCSRFProtected()){ ?>
+				<input type="hidden" name ="fp_error_filters[<?php echo $csrf_form->getCSRFFieldName() ?>]" value="<?php echo $csrf_form->getCSRFToken() ?>" />
+			<?php } ?>
+			<input type="submit" value="view" />
+			<?php if($count_identical){ ?>
+				<a href="<?php echo url_for('fp_error_object', array('sf_subject' => $error, 'action' => 'archiveIdentical')) ?>">Archive Now</a>
+			<?php } ?>
 		</form>
 	</dd>
 
