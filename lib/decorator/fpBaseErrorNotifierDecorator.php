@@ -67,6 +67,10 @@ abstract class fpBaseErrorNotifierDecorator extends fpBaseErrorNotifierMessage
   {
     return $this->message->$name;
   }
+
+  public function getMessage(){
+	  return $this->message;
+  }
   
   /**
    * 

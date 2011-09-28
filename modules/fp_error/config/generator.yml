@@ -1,0 +1,31 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           fpError
+    theme:                 admin
+    non_verbose_templates: true
+    with_show:             true
+    singular:              ~
+    plural:                ~
+    route_prefix:          fp_error
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:  ~
+      list:
+#        display: [id, created_at, user_authenticated, user_name, user_id, acknowledged, uri, environment, module, action, exception_class, exception_message, file, line]
+        display: [created_at, user_name, user_id, uri, module, exception_class, file]
+        max_per_page: 30
+        layout: stacked
+        params: %%_stack%%
+        object_actions:
+          archive: ~
+        batch_actions:
+          archive: ~
+      filter:
+        display: [created_at, uri, environment, module, action, exception_class, file, user_authenticated, user_name, is_archived]
+      form:    ~
+      edit:    ~
+      new:     ~

@@ -1,0 +1,29 @@
+fpError:
+  actAs:
+    Timestampable:
+      updated:
+        disabled: true
+  columns:
+    subject: string
+    uri: string
+    referer: string
+    environment: string
+    module: string
+    action: string
+    exception_class: string
+    exception_code: integer
+    exception_severity: integer
+    exception_message: string
+    file: string
+    line: integer
+    trace: clob
+    server: clob
+    session: clob
+    user_authenticated:
+      type: boolean
+      default: false
+    user_name: string
+    user_id: bigint
+    is_archived:
+      type: boolean
+      default: false

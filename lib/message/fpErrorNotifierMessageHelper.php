@@ -24,7 +24,8 @@ class fpErrorNotifierMessageHelper
       'code' =>  $e->getCode(),
       'severity' => $e instanceof ErrorException ? $e->getSeverity() : 'null',
       'message' => $e->getMessage(),
-      'file' => "File: {$e->getFile()}, Line: {$e->getLine()}",
+      'file' => $e->getFile(),
+      'line' => $e->getLine(),
       'trace' => $e->getTraceAsString());
   }
   

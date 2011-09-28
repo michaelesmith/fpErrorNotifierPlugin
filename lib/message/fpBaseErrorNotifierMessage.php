@@ -69,6 +69,10 @@ abstract class fpBaseErrorNotifierMessage implements IteratorAggregate
     
     return $this;
   }
+
+  public function getSection($name){
+	  return $this->_data[$name];
+  }
   
   /**
    * 

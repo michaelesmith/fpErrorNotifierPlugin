@@ -1,0 +1,8 @@
+fp_error:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                fpError
+    module:               fp_error
+    prefix_path:          /fp_error
+    column:               id
+    with_wildcard_routes: true
